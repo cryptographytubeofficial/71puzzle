@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>PUZZLE #71 SCANNER</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#060a14;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:6px}
+#app{width:100%;max-width:900px;background:#0d1424;border-radius:14px;overflow:hidden;box-shadow:0 0 60px rgba(249,115,22,.15),0 0 120px rgba(239,68,68,.08);border:1px solid #1a2744}
+.hdr{background:linear-gradient(135deg,#1a0a00,#091428);padding:12px 20px;text-align:center;border-bottom:2px solid #f97316;position:relative}
+.hdr::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ef4444,transparent)}
+.hdr h1{color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase}
+.hdr h1 span{color:#f97316;text-shadow:0 0 25px rgba(249,115,22,.6)}
+.tag{color:#94a3b8;font-size:8px;margin-top:2px;letter-spacing:2px;font-weight:600}
+.hr{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:5px}
+.lbd{display:inline-block;background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:3px 10px;border-radius:10px;animation:lp 1.5s ease-in-out infinite;letter-spacing:1px}
+@keyframes lp{0%,100%{opacity:1}50%{opacity:.4}}
+.cd{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px #ef4444;transition:all .3s}
+.cd.on{background:#22c55e;box-shadow:0 0 8px #22c55e}
+.cl{color:#64748b;font-size:10px;font-weight:600}
+.range-box{background:linear-gradient(135deg,#1a0a00,#0f1525);margin:6px 12px;padding:6px 12px;border-radius:8px;border:1px solid #f9731633;text-align:center}
+.range-box .rl{color:#64748b;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:2px}
+.range-box .rv{color:#f97316;font-size:11px;font-weight:800;font-family:'Courier New',monospace;margin-top:1px}
+.range-box .rt{color:#475569;font-size:7px;margin-top:1px}
+.sec{padding:4px 12px}
+.sr{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.sb{background:#091428;border-radius:8px;padding:5px 3px;text-align:center;border:1px solid #1a2744}
+.sl{color:#64748b;font-size:6px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.sl.o{color:#f97316}.sl.g{color:#22c55e}.sl.c{color:#22d3ee}.sl.y{color:#eab308}.sl.r{color:#ef4444}.sl.p{color:#a78bfa}
+.sv{color:#e2e8f0;font-size:13px;font-weight:800;margin-top:1px;font-variant-numeric:tabular-nums}
+.la{margin:0 8px;border-radius:10px;overflow:hidden;border:1px solid #1a2744}
+.lh{background:#091428;padding:4px 10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a2744}
+.lh span{color:#64748b;font-size:9px;font-weight:700;display:flex;align-items:center;gap:6px}
+.ad{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;transition:background .3s}
+.ad.e{background:#ef4444}
+.lc2{background:none;border:1px solid #1e293b;color:#64748b;font-size:8px;padding:2px 8px;border-radius:4px;cursor:pointer}
+#lo{height:460px;overflow-y:auto;padding:4px 6px;background:#080c18;font-family:'Courier New',monospace;font-size:9px;line-height:1.4;color:#94a3b8;-webkit-overflow-scrolling:touch}
+#lo::-webkit-scrollbar{width:3px}#lo::-webkit-scrollbar-track{background:#080c18}#lo::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
+.wb{margin:2px 0;padding:3px 5px;background:linear-gradient(135deg,#0b1225,#091020);border:1px solid #1a2744;border-radius:5px;border-left:3px solid #f97316}
+.wp{color:#e2e8f0;font-size:8px;word-break:break-all;font-weight:600}
+.wc{margin-top:1px}
+.wa{color:#22c55e;font-size:8px;font-weight:600}
+.wua{color:#eab308;font-size:8px;font-weight:600}
+.wr{color:#64748b;font-size:8px;display:inline}
+.wb2{color:#22c55e;font-weight:700;font-size:8px}
+.we{color:#ef4444;font-weight:700;font-size:8px}
+.ds{padding:0 8px 8px}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-top:1px solid #1a2744;margin-top:2px}
+.dt{color:#f97316;font-size:11px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:6px}
+.dc{background:#f97316;color:#060a14;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px}
+.dl{background:#1e3a5f;color:#60a5fa;border:1px solid #2563eb;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer}
+.dl:hover{background:#2563eb;color:#fff}
+.de{color:#475569;font-size:10px;text-align:center;padding:16px;font-style:italic}
+.dl2{max-height:200px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.dl2::-webkit-scrollbar{width:3px}.dl2::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
+.fc{background:linear-gradient(135deg,#0f1d35,#091428);border:1px solid #f97316;border-radius:8px;padding:7px 9px;margin-bottom:5px}
+.fr{display:flex;gap:5px;align-items:center;margin-bottom:2px;font-size:10px;flex-wrap:wrap}
+.fr:last-child{margin-bottom:0}
+.fi{color:#f97316;font-weight:800;min-width:28px}.fx{color:#60a5fa;font-weight:700}
+.ft{color:#eab308;font-weight:700;font-size:9px}.fb{color:#22c55e;font-weight:700;margin-left:auto;font-size:9px}
+.fn{color:#64748b;font-weight:600;min-width:65px;font-size:9px}.fv{color:#e2e8f0;word-break:break-all;font-size:9px;font-family:'Courier New',monospace}
+.sp{padding:4px 12px;background:#091428;border-top:1px solid #111827;display:flex;justify-content:space-between;align-items:center}
+.sp .sl{color:#64748b;font-size:8px;font-weight:600}
+.sp .sv{color:#f97316;font-weight:800;font-size:12px}
+.ft2{background:linear-gradient(135deg,#1a0a00,#091428);padding:8px 20px;text-align:center;border-top:2px solid #f97316;position:relative}
+.ft2::before{content:'';position:absolute;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ef4444,transparent)}
+.ft2 .fl{color:#64748b;font-size:7px;letter-spacing:3px;text-transform:uppercase}
+.ft2 .fv{color:#f97316;font-size:12px;font-weight:900;letter-spacing:3px;margin-top:2px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <h1>PUZZLE <span>#71</span></h1>
+    <div class="tag">BTC ONLY | 50 KEYS/BATCH | 100 ADDR/BATCH | <span id="apiC">150+</span> APIs | NO REPEAT</div>
+    <div class="hr"><span class="lbd">LIVE</span><span class="cd" id="cD"></span><span class="cl" id="cT">Connecting...</span></div>
+  </div>
+  <div class="range-box">
+    <div class="rl">Puzzle #71 Range</div>
+    <div class="rv">400000000000000000 — 7fffffffffffffffff</div>
+    <div class="rt">Total: 2^66 (~73,786,976,294,838,206,464) | Random Mode | Zero Repeat | <span id="prxI">Direct</span></div>
+  </div>
+  <div class="sec">
+    <div class="sr">
+      <div class="sb"><div class="sl o">Keys</div><div class="sv" id="sK">0</div></div>
+      <div class="sb"><div class="sl c">Addresses</div><div class="sv" id="sA">0</div></div>
+      <div class="sb"><div class="sl g">Found</div><div class="sv" id="sF">0</div></div>
+      <div class="sb"><div class="sl y">API Calls</div><div class="sv" id="sP">0</div></div>
+      <div class="sb"><div class="sl r">Speed/s</div><div class="sv" id="sS">0</div></div>
+      <div class="sb"><div class="sl p">Proxies</div><div class="sv" id="sPr">0</div></div>
+    </div>
+  </div>
+  <div class="la">
+    <div class="lh">
+      <span><span class="ad" id="aD"></span> Live Scanner (3 Workers)</span>
+      <button class="lc2" onclick="document.getElementById('lo').innerHTML=''">Clear</button>
+    </div>
+    <div id="lo"></div>
+  </div>
+  <div class="ds">
+    <div class="dh">
+      <div class="dt">&#9733; FOUND DASHBOARD <span class="dc" id="dC">0</span></div>
+      <button class="dl" onclick="dlF()">&#11015; Download TXT</button>
+    </div>
+    <div id="dE" class="de">No wallets with balance found yet...</div>
+    <div id="dL" class="dl2"></div>
+  </div>
+  <div class="sp">
+    <span class="sl">Speed: <span class="sv" id="spV">0</span> keys/sec</span>
+    <span class="sl">Workers: <span class="sv">3</span> | Batch: <span class="sv">50/100</span></span>
+  </div>
+  <div class="ft2">
+    <div class="fl">Programmer &amp; Owner</div>
+    <div class="fv">CRYPTOGRAPHYTUBE.IN</div>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script>
+var SERVER_URL='https://seven1puzzle.onrender.com';
+var fd=[];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fb(v){return(v||0).toFixed(8)}
+
+function addWallet(d){
+    var el=document.getElementById('lo'),div=document.createElement('div');div.className='wb';
+    var comp=d.comp||{},uncomp=d.uncomp||{};
+    var h='<div class="wp">PRIV: '+d.privkey_hex+'</div><div class="wc">';
+    h+='<span class="wa">C:</span>'+esc(d.comp_addr)+' ';
+    h+=comp.error?'<span class="we">ERR</span>':'<span class="wr">R:'+fb(comp.received)+' S:'+fb(comp.sent)+' B:<span class="wb2">'+fb(comp.balance)+'</span></span>';
+    h+=' | <span class="wua">U:</span>'+esc(d.uncomp_addr)+' ';
+    h+=uncomp.error?'<span class="we">ERR</span>':'<span class="wr">R:'+fb(uncomp.received)+' S:'+fb(uncomp.sent)+' B:<span class="wb2">'+fb(uncomp.balance)+'</span></span>';
+    h+='</div>';div.innerHTML=h;el.appendChild(div);el.scrollTop=el.scrollHeight;
+    while(el.children.length>200)el.removeChild(el.firstChild);
+}
+
+function uS(k,a,f,api,sp,pr){
+    document.getElementById('sK').textContent=(k||0).toLocaleString();
+    document.getElementById('sA').textContent=(a||0).toLocaleString();
+    document.getElementById('sF').textContent=(f||0).toLocaleString();
+    document.getElementById('sP').textContent=(api||0).toLocaleString();
+    document.getElementById('sS').textContent=(sp||0).toLocaleString();
+    document.getElementById('sPr').textContent=pr||0;
+}
+
+var socket=io(SERVER_URL,{transports:['websocket','polling'],reconnection:true,reconnectionAttempts:Infinity,reconnectionDelay:2000,timeout:20000});
+socket.on('connect',function(){document.getElementById('cD').className='cd on';document.getElementById('cT').textContent='LIVE';document.getElementById('aD').className='ad';});
+socket.on('disconnect',function(){document.getElementById('cD').className='ad e';document.getElementById('cT').textContent='Reconnecting...';document.getElementById('aD').className='ad e';});
+
+socket.on('init',function(d){
+    uS(d.checkCount||0,d.addrChecked||0,d.foundCount||0,d.apiCallCount||0,d.speed||0,d.proxyCount||0);
+    if(d.totalApis)document.getElementById('apiC').textContent=d.totalApis+' APIs';
+    if(d.proxyCount>0)document.getElementById('prxI').textContent=d.proxyCount+' Proxies (rotating)';
+    if(d.foundData&&d.foundData.length)d.foundData.forEach(function(f){aFC(f)});
+});
+
+socket.on('wallet',function(d){
+    addWallet(d);
+    uS(d.checkCount||0,d.addrChecked||0,d.foundCount||0,d.apiCallCount||0,0,0);
+});
+
+socket.on('speed',function(d){
+    document.getElementById('spV').textContent=(d.speed||0).toLocaleString();
+    uS(d.checkCount||0,d.addrChecked||0,d.foundCount||0,d.apiCallCount||0,d.speed||0,0);
+});
+
+socket.on('found',function(f){
+    aFC(f);
+    var el=document.getElementById('lo'),div=document.createElement('div');
+    div.style.cssText='color:#eab308;font-size:12px;font-weight:900;text-align:center;padding:6px 0;animation:lp 0.5s ease-in-out 3';
+    div.textContent='*** FOUND #'+f.idx+'! BTC '+f.addrType+' B:'+fb(f.balance)+' ***';
+    el.appendChild(div);el.scrollTop=el.scrollHeight;
+});
+
+socket.on('log',function(d){var el=document.getElementById('lo'),div=document.createElement('div');div.style.cssText='margin:2px 0;padding:1px 0';div.innerHTML=d.msg;el.appendChild(div);el.scrollTop=el.scrollHeight;});
+
+function aFC(f){
+    fd.push(f);document.getElementById('dE').style.display='none';
+    var c=document.createElement('div');c.className='fc';
+    var h='<div class="fr"><span class="fi">#'+f.idx+'</span><span class="fx">BTC</span>';
+    if(f.addrType)h+='<span class="ft">['+f.addrType+']</span>';
+    h+='<span class="fb">'+fb(f.balance)+' BTC</span></div>';
+    h+='<div class="fr"><span class="fn">PRIV KEY</span><span class="fv">'+f.privkey_hex+'</span></div>';
+    h+='<div class="fr"><span class="fn">COMP ADDR</span><span class="fv">'+esc(f.comp_addr)+'</span></div>';
+    if(f.uncomp_addr)h+='<div class="fr"><span class="fn">UNCOMP ADDR</span><span class="fv">'+esc(f.uncomp_addr)+'</span></div>';
+    c.innerHTML=h;document.getElementById('dL').prepend(c);document.getElementById('dC').textContent=fd.length;
+    c.style.boxShadow='0 0 25px rgba(249,115,22,0.7)';setTimeout(function(){c.style.boxShadow='none'},3000);
+}
+
+function dlF(){
+    if(!fd.length)return;
+    var t='=== PUZZLE #71 SCANNER - FOUND ===\nDate: '+new Date().toISOString()+'\nTotal: '+fd.length+'\nOwner: CRYPTOGRAPHYTUBE.IN\n'+'='.repeat(60)+'\n\n';
+    fd.forEach(function(f){t+='PRIV KEY: '+f.privkey_hex+'\nCOIN: BTC ('+f.coinSym+') TYPE: '+(f.addrType||'COMP')+'\nCOMP: '+f.comp_addr+'\n';if(f.uncomp_addr)t+='UNCOMP: '+f.uncomp_addr+'\n';t+='R:'+fb(f.received)+' S:'+fb(f.sent)+' B:'+fb(f.balance)+' BTC\n'+'='.repeat(60)+'\n\n';});
+    var b=new Blob([t],{type:'text/plain'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='Puzzle71_Found.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+}
+</script>
+</body>
+</html>
